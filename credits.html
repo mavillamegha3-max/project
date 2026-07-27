@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Find Course Credit</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.container{
+
+width:500px;
+max-width:90%;
+
+margin:60px auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:15px;
+
+text-align:center;
+
+color:black;
+
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+}
+
+input{
+
+width:100%;
+
+padding:12px;
+
+font-size:18px;
+
+margin:20px 0;
+
+}
+
+button{
+
+padding:12px 25px;
+
+background:#3B82F6;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+font-size:18px;
+
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#2563EB;
+
+}
+
+#result{
+
+margin-top:25px;
+
+font-size:22px;
+
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+
+🔍 Course Credit Finder
+
+</div>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="gpa.html">GPA</a></li>
+
+<li><a href="cgpa.html">CGPA</a></li>
+
+<li><a href="target.html">Target</a></li>
+
+</ul>
+
+</nav>
+
+<div class="container">
+
+<h2>Find Course Credit</h2>
+
+<input
+
+type="text"
+
+id="course"
+
+placeholder="Enter Course Code">
+
+<button onclick="searchCourse()">
+
+Search
+
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script src="courses.js"></script>
+
+<script>
+
+function searchCourse(){
+
+let code=document
+
+.getElementById("course")
+
+.value
+
+.toUpperCase();
+
+let result=document
+
+.getElementById("result");
+
+if(courses[code]){
+
+
+
+result.innerHTML =
+"Course Code : <b>"+code+"</b><br><br>"+
+"Credits : <b>"+courses[code].credit+"</b>";
+}
+
+else{
+
+result.innerHTML=
+
+"❌ Course Not Found";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

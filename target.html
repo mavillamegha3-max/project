@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CGPA Target Calculator</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.container{
+
+width:500px;
+max-width:90%;
+margin:60px auto;
+background:white;
+color:black;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+}
+
+.container h2{
+
+text-align:center;
+margin-bottom:25px;
+
+}
+
+input{
+
+width:100%;
+padding:12px;
+margin:10px 0;
+font-size:16px;
+
+}
+
+button{
+
+width:100%;
+padding:12px;
+background:#3B82F6;
+color:white;
+border:none;
+border-radius:8px;
+font-size:18px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#2563EB;
+
+}
+
+#result{
+
+margin-top:25px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+
+}
+
+.success{
+
+color:green;
+
+}
+
+.fail{
+
+color:red;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+
+🎯 Target Calculator
+
+</div>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="gpa.html">GPA</a></li>
+
+<li><a href="cgpa.html">CGPA</a></li>
+
+</ul>
+
+</nav>
+
+<div class="container">
+
+<h2>CGPA Target Calculator</h2>
+
+<input
+type="number"
+step="0.01"
+id="currentCGPA"
+placeholder="Current CGPA">
+
+<input
+type="number"
+id="completedCredits"
+placeholder="Completed Credits">
+
+<input
+type="number"
+id="remainingCredits"
+placeholder="Remaining Credits or This semester credits">
+
+<input
+type="number"
+step="0.01"
+id="targetCGPA"
+placeholder="Target CGPA">
+
+<button onclick="calculateTarget()">
+
+Calculate Required GPA
+
+</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+function calculateTarget(){
+
+let current=parseFloat(document.getElementById("currentCGPA").value);
+
+let completed=parseFloat(document.getElementById("completedCredits").value);
+
+let remaining=parseFloat(document.getElementById("remainingCredits").value);
+
+let target=parseFloat(document.getElementById("targetCGPA").value);
+
+let result=document.getElementById("result");
+
+if(
+
+isNaN(current) ||
+
+isNaN(completed) ||
+
+isNaN(remaining) ||
+
+isNaN(target)
+
+){
+
+result.innerHTML="Please fill all fields.";
+
+result.className="fail";
+
+return;
+
+}
+
+let required=
+
+(target*(completed+remaining)-current*completed)
+
+/remaining;
+
+if(required>10){
+
+result.innerHTML=
+
+"❌ Target CGPA cannot be achieved.";
+
+result.className="fail";
+
+}
+
+else if(required<0){
+
+result.innerHTML=
+
+"You have already achieved your target.";
+
+result.className="success";
+
+}
+
+else{
+
+result.innerHTML=
+
+"✅ Required GPA = <br><br><b>"+required.toFixed(2)+"</b>";
+
+result.className="success";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

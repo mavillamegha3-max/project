@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GPA Calculator</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.container{
+    width:95%;
+    max-width:950px;
+    margin:40px auto;
+    background:white;
+    color:black;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.info{
+    text-align:center;
+    color:#666;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#2563EB;
+    color:white;
+}
+
+input,select{
+    width:100%;
+    padding:8px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    margin:10px;
+}
+
+.addBtn{
+    background:#10B981;
+    color:white;
+}
+
+.calcBtn{
+    background:#2563EB;
+    color:white;
+}
+
+.removeBtn{
+    background:#EF4444;
+    color:white;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+#result{
+    text-align:center;
+    margin-top:25px;
+    font-size:24px;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+🎓 GPA Calculator
+</div>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+</ul>
+
+</nav>
+
+<div class="container">
+
+<h2>Semester GPA Calculator</h2>
+
+<p class="info">
+Enter a <b>Course Code</b> OR directly enter the <b>Credit</b>.
+</p>
+
+<table id="table">
+
+<tr>
+
+<th>Course Code</th>
+
+<th>OR</th>
+
+<th>Credit</th>
+
+<th>Grade</th>
+
+<th>Remove</th>
+
+</tr>
+
+</table>
+
+<center>
+
+<button class="addBtn" onclick="addRow()">
+
+➕ Add Subject
+
+</button>
+
+<button class="calcBtn" onclick="calculateGPA()">
+
+Calculate GPA
+
+</button>
+
+</center>
+
+<div id="result"></div>
+
+</div>
+
+<script src="courses.js"></script>
+
+<script>
+
+const gradePoints={
+
+"S":10,
+"A":9,
+"B":8,
+"C":7,
+"D":6,
+"E":5,
+"F":0
+
+};
+
+function addRow(){
+
+let table=document.getElementById("table");
+
+let row=table.insertRow();
+
+row.innerHTML=`
+
+<td>
+
+<input
+type="text"
+placeholder="Course Code"
+onkeyup="fillCredit(this)">
+
+</td>
+
+<td style="font-weight:bold;">
+OR
+</td>
+
+<td>
+
+<input
+type="number"
+placeholder="Credit">
+
+</td>
+
+<td>
+
+<select>
+
+<option>S</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>E</option>
+<option>F</option>
+
+</select>
+
+</td>
+
+<td>
+
+<button
+class="removeBtn"
+onclick="removeRow(this)">
+
+❌
+
+</button>
+
+</td>
+
+`;
+
+}
+
+function removeRow(button){
+
+button.parentNode.parentNode.remove();
+
+}
+function fillCredit(input){
+
+    let code = input.value.toUpperCase().trim();
+
+    input.value = code;
+
+    let row = input.parentNode.parentNode;
+
+    let creditBox = row.cells[2].children[0];
+
+    // If the course code exists, automatically fill the credit.
+    // Otherwise, don't overwrite the manual credit entered by the user.
+    if(courses[code]){
+        creditBox.value = courses[code].credit;
+    }
+
+}
+
+function calculateGPA(){
+
+    let table = document.getElementById("table");
+
+    let totalCredits = 0;
+
+    let totalGradePoints = 0;
+
+    for(let i=1; i<table.rows.length; i++){
+
+        let row = table.rows[i];
+
+        let code = row.cells[0].children[0].value.trim().toUpperCase();
+
+        let credit = parseFloat(row.cells[2].children[0].value);
+
+        let grade = row.cells[3].children[0].value;
+
+        // If a course code is entered and exists,
+        // always use the credit from courses.js
+        if(code !== "" && courses[code]){
+            credit = courses[code].credit;
+        }
+
+        if(isNaN(credit) || credit<=0){
+            continue;
+        }
+
+        totalCredits += credit;
+        totalGradePoints += credit * gradePoints[grade];
+
+    }
+
+    if(totalCredits===0){
+
+        document.getElementById("result").innerHTML =
+        "<span style='color:red'>Please enter at least one valid course.</span>";
+
+        return;
+
+    }
+
+    let gpa = (totalGradePoints/totalCredits).toFixed(2);
+
+    document.getElementById("result").innerHTML =
+    "🎉 <span style='color:#2563EB'>Your GPA is : "+gpa+"</span>";
+
+}
+
+addRow();
+
+</script>
+
+</body>
+</html>
