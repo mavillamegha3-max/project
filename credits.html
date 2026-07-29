@@ -133,34 +133,28 @@ Search
 
 function searchCourse(){
 
-let code=document
+    let code = document
+        .getElementById("course")
+        .value
+        .trim()
+        .toUpperCase();
 
-.getElementById("course")
+    document.getElementById("course").value = code;
 
-.value
+    let result = document.getElementById("result");
 
-.toUpperCase();
+    if(courses[code]){
 
-let result=document
+        result.innerHTML =
+        "Course Code : <b>" + code + "</b><br><br>" +
+        "Credits : <b>" + courses[code].credit + "</b>";
 
-.getElementById("result");
+    } else {
 
-if(courses[code]){
+        result.innerHTML =
+        "<span style='color:red;'>Course code not found.</span>";
 
-
-
-result.innerHTML =
-"Course Code : <b>"+code+"</b><br><br>"+
-"Credits : <b>"+courses[code].credit+"</b>";
-}
-
-else{
-
-result.innerHTML=
-
-"❌ Course Not Found";
-
-}
+    }
 
 }
 
